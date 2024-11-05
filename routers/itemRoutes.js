@@ -101,4 +101,21 @@ router.put('/:id', uploads.single('image'), async (req, res) => {
 
 });
 
+router.delete('/:id', async (req, res) => {
+    Item.findByIdAndRemove(req.params.id)
+        .then((item) => {
+            if(item) {
+                return res.status(200).send("Item deleted successfully!");
+            } else {
+                return res.status(400).send("Item not found!");
+            }
+        })
+        .catch((err) => {
+            return res.status(500).json({
+                success: false,
+                error: err
+            });
+        });
+});
+
 module.exports = router;
