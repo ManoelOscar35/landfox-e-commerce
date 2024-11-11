@@ -19,6 +19,9 @@ app.use(url+'/items', itemRouter);
 const categoryRouter = require("./routers/categoryRoutes");
 app.use(url+'/category', categoryRouter);
 
+const userRouter = require("./routers/userRoutes");
+app.use(url+'/users', userRouter);
+
 mongoose.connect(process.env.CONNECTION_STRING,
     {
         useNewUrlParser: true,
