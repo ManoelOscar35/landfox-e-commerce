@@ -40,4 +40,34 @@ router.post('/', async (req, res) => {
     res.send(user);
 });
 
+router.put('/:id', async (req, res) => {
+    const userInfo = await User.findById(req.params.id);
+
+    let newPassword;
+
+    if(req.body.password) {
+        newPassword = bcrypt.hashSync(req.body.password);
+    } else {
+        newPassword = userInfo.passwordHash;
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+            email: req.body.email,
+            passwordHash: newPassword,
+            isAdmin: req.body.isAdmin
+        },
+        {
+            new: true
+        }
+    );
+
+    if(!user) {
+        return res.status(400).send("No user found!");
+    }
+
+    res.send(user);
+});
+
 module.exports = router;
